@@ -1,0 +1,25 @@
+.dashboard{
+  .currency-tab{
+    .name{
+      width: calc((100% - 150px) * (35 / 100));
+    }
+    .rate{
+      width: calc((100% - 150px) * (24 / 100));
+    }
+    .inverse{
+      width: calc((100% - 150px) * (24 / 100));
+    }
+    .quantity{
+      width: calc((100% - 150px) * (17 / 100));
+    }
+    .cta{
+      flex-grow:0;
+      flex-basis: 150px;
+    }  
+  }
+}
+
+.pieChart{
+  height: 400px;
+  width: 100%;
+}

@@ -1,0 +1,21 @@
+  
+.home{
+  .currency-tab{
+    .name{
+      width: calc((100% - 170px) * (50 / 100));
+    }
+    .rate{
+      width: calc((100% - 170px) * (18 / 100));
+    }
+    .inverse{
+      width: calc((100% - 170px) * (18 / 100));
+    }
+    .progress{
+      width: calc((100% - 170px) * (14 / 100));
+    }
+    .cta{
+      flex-grow:0;
+      flex-basis: 170px;
+    }  
+  }
+}

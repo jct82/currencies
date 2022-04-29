@@ -1,0 +1,42 @@
+.auth{
+  .button-connect{
+    height: 40px;
+    width: 40px;
+    background-image: url('images/profil.png');
+    background-repeat:no-repeat;
+    background-size: 100%;
+    border: none;
+    background-color: #ffffff;
+    cursor: pointer;
+  }
+}
+
+.modal-box{
+  position: fixed;
+  z-index: 1000;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 300px;
+  padding: 35px 0px;
+  border: 1px solid #000;
+  background-color: #ffffff;
+  text-align: center;
+  &.connect{
+    height:145px;
+  }
+  &.add-user{
+    height:195px;
+  }
+  .close-modal{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height:1;
+  }
+}
+

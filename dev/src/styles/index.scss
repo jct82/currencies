@@ -1,0 +1,149 @@
+header{
+  position: relative;
+  height: 45px;
+}
+
+.auth{
+  position: absolute;
+  top: 0;
+  right: 25px;
+}
+
+.input-wrapper{
+  display: block;
+  margin-bottom: 10px;
+}
+
+input{
+  height: 30px;
+  padding:3px 12px;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+button, button:active, button:focus{
+  border: none;
+  outline: none;
+}
+
+.button{
+  font-size: 14px;
+  line-height: 1;
+  padding: 6px 12px;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.dashboard-btn{
+  position: absolute;
+  left: 25px;
+  width: 52px;
+  height: 45px;
+  background-image: url('images/dashboard.png');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+/*tableau*/
+.tab{
+  border: 1px solid #000;
+}
+.row{
+  display:flex;
+  height: 35px;
+  &:not(:first-child){
+    border-top: 1px solid #000;
+  }
+}
+.cell{
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  flex-grow: 1;
+  box-sizing: border-box;
+  height: 100%;
+  text-align: center;
+  line-height:0.9;
+  &:not(:first-child){
+    border-left: 1px solid #000;
+  }
+}
+
+.currency-tab{
+  margin: 0 auto;
+  max-width: 850px;
+  .th{
+    position:relative;
+    .sorted{
+      .asc{
+        margin-left: 5px;
+        border-bottom: 12px solid #b1b1b1;
+      }
+      .des{
+        border-top: 12px solid #b1b1b1;
+      }
+      &.up:hover .asc{
+        border-bottom: 12px solid green;
+      }
+      &.down:hover .des{
+        border-top: 12px solid green;
+      }
+    }
+  }
+  .tr{
+    .arrow{
+      position:relative;
+      margin-left: 12px;
+      &:before{
+        content:'';
+        position:absolute;
+        height: 6px;
+        width: 4px;
+        left: -2px;
+      }
+    }
+    .asc{
+      border-bottom: 12px solid green;
+      transform: rotate(45deg);
+      margin-bottom: 3px;
+      &:before{
+        background-color:green;
+        top: 12px;
+      }
+    }
+    .des{
+      border-top: 12px solid red;
+      transform: rotate(-45deg);
+      margin-top: 7px;
+      &:before{
+        top: -18px;
+        background-color:red;
+      }
+    }
+    .lin{
+      border-top: 10px solid blue;
+      transform: rotate(-90deg);
+      &:before{
+        top: -16px;
+        background-color:blue;
+      }
+    }
+  }
+  .arrow{
+    display: inline-block;
+    height:0;
+    width: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    pointer-events:none;
+  }
+  input[type="number"]{
+    width: 55px;
+    height: 20px;
+    padding: 3px 0 3px 5px;
+    margin-left: 4px;
+  }
+}
+/*fin tableau*/
