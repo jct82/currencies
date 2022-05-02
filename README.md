@@ -1,5 +1,4 @@
 # currencies
-# currencies
 # in cmd:
 # go in dev repertory
 # launch npm run build
