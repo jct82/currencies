@@ -5,10 +5,10 @@
 
 @font-face {
   font-family: "Grotesk";
-  src: url('fonts/Grotesk.otf') format("otf"),
-       url('fonts/Grotesk.ttf') format("ttf"),
-       url('fonts/Grotesk.woff') format("woff"),
-       url('fonts/Grotesk.woff2') format("woff2'");
+  src: url('./fonts/Grotesk.otf') format("otf"),
+       url('./fonts/Grotesk.ttf') format("ttf"),
+       url('./fonts/Grotesk.woff') format("woff"),
+       url('./fonts/Grotesk.woff2') format("woff2'");
 }
 
 body{
@@ -42,7 +42,7 @@ header{
 .dashboard-btn{
   width: 52px;
   height: 40px;
-  background-image: url('images/dashboard.png');
+  background-image: url('./images/dashboard.png');
   background-repeat: no-repeat;
   background-size: 100%;
   background-color: transparent;
@@ -73,7 +73,7 @@ header{
   .sup{
     height: 10px;
     width: 10px;
-    background-image:url('images/cross-neg.png');
+    background-image:url('./images/cross-neg.png');
     background-repeat: no-repeat;
     background-size: 100%;
     margin-right: 4px;

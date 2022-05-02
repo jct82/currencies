@@ -4,7 +4,7 @@
   .button-connect{
     height: 38px;
     width: 40px;
-    background-image: url('images/profil.png');
+    background-image: url('./images/profil.png');
     background-repeat:no-repeat;
     background-size: 100%;
     border: none;
@@ -65,7 +65,7 @@
     right: 15px;
     height: 15px;
     width: 15px;
-    background-image: url('images/close.png');
+    background-image: url('./images/close.png');
     background-repeat: no-repeat;
     background-size: 100%;
     background-color: transparent;

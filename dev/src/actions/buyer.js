@@ -47,5 +47,5 @@ export const connect = () => ({
 });
 
 export const posterDisco = () => ({
-  type: POSTER_DISCO,
+  type: POSTER_DISCO, 
 });
