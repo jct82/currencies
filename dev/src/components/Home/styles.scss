@@ -23,7 +23,7 @@
     width:20px;
     height: 20px;
     margin-left:5px;
-    background-image: url('./images/view.png');
+    background-image: url('../images/view.png');
     background-repeat: no-repeat;
     background-size: 100%;
     background-color: transparent;
@@ -52,7 +52,7 @@
         flex-grow:0;
         flex-basis: 85px;
         .cta-buy{
-          background-image: url('./images/shop.png');
+          background-image: url('../images/shop.png');
           background-repeat: no-repeat;
           background-size: 100%;
           background-color: transparent;
