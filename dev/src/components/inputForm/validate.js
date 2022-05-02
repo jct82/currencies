@@ -26,6 +26,7 @@ export const validateField = (el) => {
       if (checkEmail(el) == false) val = false;
     } 
   }
+  
 
   if (el.classList.contains('required')) {
     if(el.value.trim() == '') {

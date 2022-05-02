@@ -1,25 +1,36 @@
-import { CHANGE_FIELD, ADD_CUR, REMOVE_CUR, DISPLAY_MODAL, LOG_USER } from "src/actions/buyer";
+import { CHANGE_FIELD, ADD_CUR, REMOVE_CUR, DISPLAY_MODAL, CONNECT, POSTER_DISCO } from "src/actions/buyer";
 import { getColor } from "../utils/methods";
 
 const initialState = {
   id: 1,
-  name:'',
-  firstName:'',
+  name:'john',
   email:'',
   password: '',
   confirmPassword: '',
   wallet:[],
-  connect: false,
+  connected: false,
   logModal: 'off',
   amount: 0,
+  discoBtn: false,
 };
 
 const reducer = (state = initialState, action = {}) => {
     switch (action.type) {
-      case LOG_USER :{
+      case CONNECT :{
         return{
           ...state,
-          connect: true,
+          logModal: 'off',
+          email: state.connected == true ? '' : state.email,
+          password: state.connected == true ? '' : state.password,
+          confirmPassword: state.connected == true ? '' : state.confirmPassword,
+          wallet: state.connected == true ? [] : state.wallet,
+          connected: !state.connected,
+        }
+      }
+      case POSTER_DISCO :{
+        return{
+          ...state,
+          discoBtn: !state.discoBtn,
         }
       }
       case CHANGE_FIELD :{

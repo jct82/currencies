@@ -14,8 +14,6 @@ const Home = () => {
   const { wallet } = useSelector((state) => state.buyer);
   const { currencyCourbs, period } = useSelector((state) => state.currency);
 
-  console.log('currencyCourbs', currencyCourbs);
-
   //create formated date for fluctuation court currency line chart
   const createDate = (days) => {
     let now = new Date();

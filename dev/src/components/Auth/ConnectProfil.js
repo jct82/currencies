@@ -18,20 +18,9 @@ const ConnectProfil = () => {
     dispatch(displayModal(e.target.getAttribute('name')));
   }
 
-  const logIn = (e) => {
-    e.preventDefault();
-    dispatch(logUser());
-  }
-
   const submitForm = (e) => {
     e.preventDefault();
-    if (checkForm(e.target.elements)) {
-      console.log('yyyyyyyyy');
-    }
-  }
-  //form validation
-  const checkForm = (formEl) => {
-    if (validateForm(formEl)) return true;
+    if (validateForm(e.target.elements)) dispatch(logUser());
   }
 
   //control fields
@@ -42,12 +31,12 @@ const ConnectProfil = () => {
 
   return(
     <div className="modal-box connect">
-      <form onSubmit={submitForm} onChange={formChange} noValidate>
+      <form encType="multipart/form-data" onSubmit={submitForm} onChange={formChange} noValidate>
         <div className="close-modal" onClick={showModal} name="off"></div>
         <Input classes="required" type="email" label="Email" name="email" value={email} changeInput={updateField}/>
         <Input classes="required" type="password" label="Mot de passe" name="password" value={password} changeInput={updateField}/>
         <div>
-          <button className="button btn" onClick={logIn} type="submit">Se connecter</button>
+          <button className="button btn" type="submit">Se connecter</button>
         </div>
         <a onClick={showModal} name="addUser">Créer un compte</a>
       </form>

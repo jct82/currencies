@@ -3,6 +3,9 @@ export const ADD_CUR = 'ADD_CUR';
 export const REMOVE_CUR = 'REMOVE_CUR';
 export const DISPLAY_MODAL = 'DISPLAY_MODAL';
 export const LOG_USER = 'LOG_USER';
+export const ADD_USER = 'ADD_USER';
+export const CONNECT = 'CONNECT';
+export const POSTER_DISCO = 'POSTER_DISCO';
 
 export const changeField = (name, value) => ({
   type: CHANGE_FIELD,
@@ -33,4 +36,16 @@ export const displayModal = (mode) => ({
 
 export const logUser = () => ({
   type: LOG_USER,
+});
+
+export const addUser = () => ({
+  type: ADD_USER,
+});
+
+export const connect = () => ({
+  type: CONNECT,
+});
+
+export const posterDisco = () => ({
+  type: POSTER_DISCO,
 });

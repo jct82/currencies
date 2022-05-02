@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import Input from "../inputForm/inputs";
-import { validateForm, validateField } from "../inputForm/validate";
-import { changeField, displayModal } from "../../actions/buyer";
+import { validateForm, validateField, checkCustom } from "../inputForm/validate";
+import { changeField, displayModal, addUser } from "../../actions/buyer";
 
 import './styles.scss';
 const AddProfil = () => {
@@ -19,15 +19,11 @@ const AddProfil = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    if (checkForm(e.target.elements)) {
-      console.log('yyyyyyyyy');
-    }
+    const comparePwd = (e.target.elements.password.value == e.target.elements.confirmPassword.value);
+    const errMess = 'Les mots de passe ne sont pas identiques'
+    if (checkCustom(e.target.elements.confirmPassword, errMess, comparePwd) && validateForm(e.target.elements)) dispatch(addUser());
   }
-  //form validation
-  const checkForm = (formEl) => {
-    if (validateForm(formEl)) return true;
-  }
-
+  
   //control fields
   //occur after first submit
   const formChange = (e) => {
@@ -36,7 +32,7 @@ const AddProfil = () => {
 
   return(
     <div className="modal-box add-user">
-      <form onSubmit={submitForm} onChange={formChange} noValidate>
+      <form encType="multipart/form-data" onSubmit={submitForm} onChange={formChange} noValidate>
         <div className="close-modal" onClick={showModal} name="off"></div>
         <Input classes="required" type="text" label="Nom" name="name" value={name} changeInput={updateField}/>
         <Input classes="required" type="email" label="Email" name="email" value={email} changeInput={updateField}/>

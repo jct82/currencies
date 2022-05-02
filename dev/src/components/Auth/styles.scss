@@ -1,4 +1,5 @@
 .auth{
+  position: relative;
   text-align: right;
   .button-connect{
     height: 38px;
@@ -9,6 +10,22 @@
     border: none;
     background-color: transparent;
     cursor: pointer;
+  }
+  .disconnect{
+    position: absolute;
+    right: 0px;
+    top: calc(100% - 1px);
+    height: 30px;
+    background-color: #000;
+    background-image: url(images/off.png);
+    background-position: right 6px center;
+    background-repeat: no-repeat;
+    background-size: auto 20px;
+    color: #fff;
+    padding: 0 32px 0 8px;
+    font-size: 18px;
+    border-radius: 4px 0px 4px 4px;
+    text-transform: capitalize;
   }
 }
 
