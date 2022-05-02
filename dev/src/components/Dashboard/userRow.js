@@ -1,32 +1,35 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from "react";
 import { removeCur } from "../../actions/buyer";
+import { roundNum } from "../../utils/methods";
 
 const UserRow = ({data}) => {
   const dispatch = useDispatch();
   const { wallet } = useSelector((state) => state.buyer);
 
   const [quantity, setQuantity] = useState(1);
-  
-  const roundNum = (num) => Math.round(num * 1000) / 1000;
 
+  //sell currency. remove it from user's wallet
   const sellCur = () => {
     dispatch(removeCur(data.name, data.rate, data.inverseRate, quantity));
     setQuantity(1);
   }
 
+  //change quantity of selected currency to sell
   const changeQuant = (e) => {
-    setQuantity(Number(e.target.value) <= data.quantity ? Number(e.target.value) : data.quantity);
+    let quant = Number(e.target.value);
+    if (quant < 1) quant = 1;
+    setQuantity(quant <= data.quantity ? quant : data.quantity);
   }
 
   return (
     <div className="row">
       <div className="cell name">{data.name}</div>
-      <div className="cell rate">{roundNum(data.rate)}</div>
-      <div className="cell inverse">{roundNum(data.inverseRate)}</div>
+      <div className="cell rate">{roundNum(data.rate, 100)}</div>
+      <div className="cell inverse">{roundNum(data.inverseRate, 100)}</div>
       <div className="cell quantity">{data.quantity}</div>
       <div className="cell cta">
-        <button type="button" onClick={sellCur}>Vendre</button>
+        <button className="cta-sell" type="button" onClick={sellCur}>Vendre</button>
         <input type="number" min="1" max={data.quantity} onChange={changeQuant} name="quantity" value={quantity}></input>
       </div>
     </div>

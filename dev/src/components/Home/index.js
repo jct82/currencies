@@ -1,35 +1,35 @@
-//imports nécessaire pour pouvoir appeler les propriétés du state et appelé les fonctions du fichier action
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
+
+import { roundNum, twoD } from "../../utils/methods";
 import currencyData from '../../data/currency.json';
 import CurrencyRow from './CurrencyRow';
-import { testAction, changeName } from "../../actions/buyer";
+import LineCurrency from './lineCurrency';
+import { setPeriod, supCur } from "../../actions/currency";
 
 import './styles.scss';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { wallet, name, money } = useSelector((state) => state.buyer);
+  const { wallet } = useSelector((state) => state.buyer);
+  const { currencyCourbs, period } = useSelector((state) => state.currency);
 
-  const roundNum = (num, unit) => {
-    let setUnit = unit;
-    while ((num * setUnit) < 1) setUnit *=  10;
-    return (Math.round(num * setUnit) / setUnit)
-  };
+  console.log('currencyCourbs', currencyCourbs);
 
+  //create formated date for fluctuation court currency line chart
   const createDate = (days) => {
-    let dateSet = new Date();
-    dateSet.setHours(dateSet.getHours() + 2);
-    dateSet.setDate(dateSet.getDate() - days);
-    let UTCSet = dateSet.toUTCString();
-    return UTCSet;
+    let now = new Date();
+    let dateSet = new Date(now.getFullYear(), now.getMonth(), now.getDate() - days);
+    return ''+dateSet.getFullYear()+'-'+twoD(dateSet.getMonth() + 1)+'-'+twoD(dateSet.getDate());
   }
 
+  //affect random court data to currency
   const fluctuat = (rate) => {
     const percent = Math.ceil(Math.random() * 50);
     return Math.random() < 0.5 ? (100 * rate) / (percent + 100) : rate / (1 - (percent / 100));
   }
 
+  //create fake data for fluctuation court currency of past days
   const fillHistory = (val) => {
     let weekValues = [];
     for (let i = 6; i > 0; i--) {
@@ -41,6 +41,7 @@ const Home = () => {
     return weekValues;
   }
 
+  //prepare and complete data of json currencies for charts and tabs
   let newCurTab = [...currencyData.currencies].map(cur => ({
     ...cur,
     date: createDate(0),
@@ -52,6 +53,7 @@ const Home = () => {
   let [currencies, setCurrencies] = useState(newCurTab);
   let [sortedDir, setSortedDir] = useState('up');
 
+  //sort currency tab according to selected type of information
   const sortTab = (e) => {
     let type = e.target.getAttribute('type');
     let sorted = [...currencies].sort((a, b) => {
@@ -63,8 +65,7 @@ const Home = () => {
     setCurrencies(sorted);
   }
 
-  const [period, setPeriod] = useState(2);
-
+  //sort currency tab according to court progression on selected period
   const sortProgress = () => {
     let sorted = [...currencies].sort((a, b) => {
       let progressA = a.inverseRate * 100 / a.history[7 - period].inverseRate;
@@ -81,29 +82,51 @@ const Home = () => {
     setCurrencies(sorted);
   }
 
+  //select relevant data according to period
+  let periodCourb = [...currencyCourbs];
+  periodCourb = periodCourb.map(elem => ({...elem}));
+  periodCourb = periodCourb.map(elem => {
+    elem.data = elem.data.slice(0 - period);
+    return elem;
+  });
+
+  //set period
   const dayRange = (e) => {
-    setPeriod(e.target.value);
-    setSortedDir(sortedDir == 'down' ? 'up' : 'down');
-    sortProgress();
+    dispatch(setPeriod(e.target.value));
   }
 
+  //stop propagation of click on period select change
+  //to prevent triggering sort of tab by court progression
   const stopPropa = (e) => {
     e.stopPropagation();
   }
 
+  // JSX element of currency tab rows
   let JSXRow = currencies.map(elem => <CurrencyRow key={elem.code} data={elem} period={period} />);
-  
-  let amount = 0;
-  wallet.forEach(cur => amount += (cur.inverseRate * cur.quantity));
 
+  //remove currency of fluctuation court line chart 
+  const removeCur = (e) =>{
+    dispatch(supCur(e.target.id));
+  }
+
+  //set legends for currency fluctuation court line chart
+  const JSXLegends = currencyCourbs.map(elem => (
+    <div className="legend-block" key={elem.id}>
+      <div className="sup" id={elem.id} onClick={removeCur}></div>
+      <div className="color" style={{backgroundColor:elem.color}}></div>{elem.id}
+    </div>
+  ));
   
   return (
     <div className="home">
-      <div className="user-info">
-        <div>{name}</div> 
-        <div>Panier&nbsp;: <span>{amount > 0 ? roundNum(amount, 100).toLocaleString() : 0}&nbsp;$</span></div>
-        <div>Disponible&nbsp;: <span>{money > 0 ? roundNum(money, 100).toLocaleString() : 0}&nbsp;$</span></div>
+      {!!currencyCourbs.length && 
+      <><div className="courbChart">
+         <LineCurrency key={periodCourb.id} data={periodCourb} />
       </div>
+      <div className="legends">
+        {JSXLegends}
+      </div></>
+      }
       <div className="currency-tab tab">
         <div className="row th">
           <div className={`cell name ${sortedDir} sorted`} onClick={sortTab} type="name">

@@ -1,12 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { ResponsivePie } from '@nivo/pie';
 
+import { roundNum } from "../../utils/methods";
 import './styles.scss';
 
-const PieChart = ({data, globalVal}) => {
-  const roundNum = (num) => Math.round(num * 10) / 10;
-
+const PieChart = ({data}) => {
+  //set general data in the middle of the donut chart
   const CenteredMetric = ({ dataWithArc, centerX, centerY }) => {
+    
     let total = 0
     dataWithArc.forEach(datum => {
         total += datum.value
@@ -23,7 +23,7 @@ const PieChart = ({data, globalVal}) => {
           fontWeight: 600,
         }}
       >
-        {`${roundNum(total)} $`}
+        {`${roundNum(total, 10)} $`}
       </text>
     )
   }
@@ -37,6 +37,7 @@ const PieChart = ({data, globalVal}) => {
       cornerRadius={3}
       activeOuterRadiusOffset={8}
       borderWidth={1}
+      colors={{ datum: 'data.color' }}
       borderColor={{
           from: 'color',
           modifiers: [
@@ -64,11 +65,11 @@ const PieChart = ({data, globalVal}) => {
       valueFormat={value =>
         `${value} $`
       }
-      tooltip={({ datum: { id, value } }) => (
+      tooltip={({ datum: { id, value, arc } }) => (
         <div style={{padding:6, backgroundColor: 'rgba(255, 255, 255, 0.5)', borderRadius: '5px', fontSize: 11, textAlign: 'center'}}>
           {id}: {value} $
           <br /> 
-          {roundNum((value / globalVal) * 100)} %
+          {roundNum((Math.round((arc.angleDeg - arc.padAngle), 100) / 360 * 100), 100)} %
         </div>
       )}
       defs={[
@@ -139,31 +140,6 @@ const PieChart = ({data, globalVal}) => {
                   id: 'javascript'
               },
               id: 'lines'
-          }
-      ]}
-      legends={[
-          {
-              anchor: 'bottom',
-              direction: 'column',
-              justify: false,
-              translateX: -200,
-              translateY: 76,
-              itemsSpacing: 0,
-              itemWidth: 100,
-              itemHeight: 22,
-              itemTextColor: '#999',
-              itemDirection: 'left-to-right',
-              itemOpacity: 1,
-              symbolSize: 18,
-              symbolShape: 'circle',
-              effects: [
-                  {
-                      on: 'hover',
-                      style: {
-                          itemTextColor: '#000'
-                      }
-                  }
-              ]
           }
       ]}
   />);

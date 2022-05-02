@@ -1,4 +1,5 @@
 .dashboard{
+  padding: 0 40px;
   .currency-tab{
     .name{
       width: calc((100% - 150px) * (35 / 100));
@@ -19,7 +20,54 @@
   }
 }
 
-.pieChart{
-  height: 400px;
-  width: 100%;
+@media screen and (min-width:1280px) {
+  .dashboard{
+    .charts{
+      display: flex;
+      justify-content:space-between;
+      .pieChart{
+        flex-basis: 29%;
+        padding: 17px 0;
+      }
+      .courb-wrapper{
+        flex-basis: 69%;
+      }
+    }
+  }
 }
+
+@media screen and (max-width:640px){
+  .dashboard{
+    padding: 0 20px;
+    .currency-tab{
+      font-size: 11px;
+      .name{
+        width: calc((100% - 68px) * (40 / 100));
+      }
+      .rate{
+        width: calc((100% - 68px) * (18 / 100));
+      }
+      .inverse{
+        width: calc((100% - 68px) * (18 / 100));
+      }
+      .quantity{
+        width: calc((100% - 68px) * (24 / 100));
+      }
+      .cta{
+        flex-grow:0;
+        flex-basis: 68px;
+        .cta-sell{
+          background-image: url('images/sell.png');
+          background-repeat: no-repeat;
+          background-size: 100%;
+          background-color: transparent;
+          height: 20px;
+          width: 20px;
+          font-size: 0;
+        }
+      }  
+    }
+  }
+}
+
+

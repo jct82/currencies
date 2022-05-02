@@ -1,5 +1,6 @@
   
 .home{
+  padding: 0 40px;
   .currency-tab{
     .name{
       width: calc((100% - 170px) * (50 / 100));
@@ -18,4 +19,54 @@
       flex-basis: 170px;
     }  
   }
+  .cta-see{
+    width:20px;
+    height: 20px;
+    margin-left:5px;
+    background-image: url('images/view.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-color: transparent;
+    cursor:pointer;
+  }
 }
+
+@media screen and (max-width:640px){
+  .home{
+    padding: 0 20px;
+    .currency-tab{
+      font-size: 11px;
+      .name{
+        width: calc((100% - 85px) * (44 / 100));
+      }
+      .rate{
+        width: calc((100% - 85px) * (18 / 100));
+      }
+      .inverse{
+        width: calc((100% - 85px) * (18 / 100));
+      }
+      .progress{
+        width: calc((100% - 85px) * (20 / 100));
+      }
+      .cta{
+        flex-grow:0;
+        flex-basis: 85px;
+        .cta-buy{
+          background-image: url('images/shop.png');
+          background-repeat: no-repeat;
+          background-size: 100%;
+          background-color: transparent;
+          height: 16px;
+          width: 16px;
+          font-size: 0;
+        }
+      }  
+    }
+    .cta-see{
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+

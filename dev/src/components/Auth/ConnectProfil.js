@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
+import Input from "../inputForm/inputs";
+import { validateForm, validateField } from "../inputForm/validate";
 import { changeField, displayModal, logUser } from "../../actions/buyer";
 
 import './styles.scss';
@@ -21,19 +23,34 @@ const ConnectProfil = () => {
     dispatch(logUser());
   }
 
+  const submitForm = (e) => {
+    e.preventDefault();
+    if (checkForm(e.target.elements)) {
+      console.log('yyyyyyyyy');
+    }
+  }
+  //form validation
+  const checkForm = (formEl) => {
+    if (validateForm(formEl)) return true;
+  }
+
+  //control fields
+  //occur after first submit
+  const formChange = (e) => {
+    validateField(e.target);
+  }
+
   return(
     <div className="modal-box connect">
-      <div className="close-modal" onClick={showModal} name="off">X</div>
-      <div className="input-wrapper">
-        <input type="email" name="email" value={email} onChange={updateField} placeholder="email" />
-      </div>
-      <div className="input-wrapper">
-        <input type="password" name="password" value={password} onChange={updateField} placeholder="password" />
-      </div>
-      <div className="input-wrapper">
-        <button className="button" onClick={logIn} type="submit">se connecter</button>
-      </div>
-      <div onClick={showModal} name="addUser">Créer un compte</div>
+      <form onSubmit={submitForm} onChange={formChange} noValidate>
+        <div className="close-modal" onClick={showModal} name="off"></div>
+        <Input classes="required" type="email" label="Email" name="email" value={email} changeInput={updateField}/>
+        <Input classes="required" type="password" label="Mot de passe" name="password" value={password} changeInput={updateField}/>
+        <div>
+          <button className="button btn" onClick={logIn} type="submit">Se connecter</button>
+        </div>
+        <a onClick={showModal} name="addUser">Créer un compte</a>
+      </form>
     </div>
   );
 };

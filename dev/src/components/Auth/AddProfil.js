@@ -1,5 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
+import Input from "../inputForm/inputs";
+import { validateForm, validateField } from "../inputForm/validate";
 import { changeField, displayModal } from "../../actions/buyer";
 
 import './styles.scss';
@@ -10,29 +12,38 @@ const AddProfil = () => {
   const updateField = (e) => {
     dispatch(changeField(e.target.name, e.target.value));
   }
-
+  
   const showModal = (e) => {
     dispatch(displayModal(e.target.getAttribute('name')));
   }
 
+  const submitForm = (e) => {
+    e.preventDefault();
+    if (checkForm(e.target.elements)) {
+      console.log('yyyyyyyyy');
+    }
+  }
+  //form validation
+  const checkForm = (formEl) => {
+    if (validateForm(formEl)) return true;
+  }
+
+  //control fields
+  //occur after first submit
+  const formChange = (e) => {
+    validateField(e.target);
+  }
+
   return(
     <div className="modal-box add-user">
-      <div className="close-modal" onClick={showModal} name="off">X</div>
-      <div className="input-wrapper">
-        <input type="text" name="name" value={name} onChange={updateField} placeholder="name" />
-      </div>
-      <div className="input-wrapper">
-        <input type="email" name="email" value={email} onChange={updateField} placeholder="email" />
-      </div>
-      <div className="input-wrapper">
-        <input type="password" name="password" value={password} onChange={updateField} placeholder="password" />
-      </div>
-      <div className="input-wrapper">
-        <input type="confirm-password" name="confirmPassword" value={confirmPassword} onChange={updateField} placeholder="confirm password" />
-      </div>
-      <div className="input-wrapper">
-        <button className="button" type="submit">Créer mon compte</button>
-      </div>
+      <form onSubmit={submitForm} onChange={formChange} noValidate>
+        <div className="close-modal" onClick={showModal} name="off"></div>
+        <Input classes="required" type="text" label="Nom" name="name" value={name} changeInput={updateField}/>
+        <Input classes="required" type="email" label="Email" name="email" value={email} changeInput={updateField}/>
+        <Input classes="required" type="password" label="Mot de passe" name="password" value={password} changeInput={updateField}/>
+        <Input classes="required" type="password" label="Confirmez votre mot de passe" name="confirmPassword" value={confirmPassword} changeInput={updateField}/>
+        <button className="button btn" type="submit">Créer mon compte</button>
+      </form>
     </div>
   );
 };

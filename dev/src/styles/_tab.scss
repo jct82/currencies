@@ -1,0 +1,141 @@
+.tab{
+  border: 1px solid #000;
+  background-color: rgba(255,255,255,0.4);
+  border-radius:8px;
+}
+.row{
+  display:flex;
+  height: 35px;
+  &:not(:first-child){
+    border-top: 1px solid #000;
+  }
+}
+.cell{
+  display: flex;
+  align-items:center;
+  justify-content: center;
+  flex-grow: 1;
+  box-sizing: border-box;
+  height: 100%;
+  text-align: center;
+  line-height:0.9;
+}
+
+.currency-tab{
+  margin: 0 auto;
+  max-width: 850px;
+  .th{
+    position:relative;
+    .sorted{
+      cursor:pointer;
+      .asc{
+        margin-left: 5px;
+        border-bottom: 12px solid #b1b1b1;
+      }
+      .des{
+        border-top: 12px solid #b1b1b1;
+      }
+      &.up:hover .asc{
+        border-bottom: 12px solid green;
+      }
+      &.down:hover .des{
+        border-top: 12px solid green;
+      }
+    }
+  }
+  .tr{
+    .arrow{
+      position:relative;
+      margin-left: 12px;
+      &:before{
+        content:'';
+        position:absolute;
+        height: 6px;
+        width: 4px;
+        left: -2px;
+      }
+    }
+    .asc{
+      border-bottom: 12px solid green;
+      transform: rotate(45deg);
+      margin-bottom: 3px;
+      &:before{
+        background-color:green;
+        top: 12px;
+      }
+    }
+    .des{
+      border-top: 12px solid red;
+      transform: rotate(-45deg);
+      margin-top: 7px;
+      &:before{
+        top: -18px;
+        background-color:red;
+      }
+    }
+    .lin{
+      border-top: 10px solid blue;
+      transform: rotate(-90deg);
+      &:before{
+        top: -16px;
+        background-color:blue;
+      }
+    }
+  }
+  .arrow{
+    display: inline-block;
+    height:0;
+    width: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    pointer-events:none;
+  }
+  input[type="number"]{
+    width: 55px;
+    height: 20px;
+    line-height: 18px;
+    padding: 3px 0 3px 5px;
+    margin-left: 4px;
+    box-sizing: border-box;
+  }
+  .cta-buy{
+    height: 18px;
+  }
+}
+
+@media screen and (max-width:640px) {
+  .currency-tab{
+    input[type=number] {
+      padding: 3px 0 3px 3px;
+      width: 35px;
+      font-size: 12px;
+      line-height: 14px;
+    }
+    .th .sorted{
+      .arrow{
+        border-left: 3px solid transparent;
+        border-right: 3px solid transparent;
+      }
+      .asc{
+        margin-left: 2px;
+        border-bottom: 8px solid #b1b1b1;
+      }
+      .des{
+        border-top: 8px solid #b1b1b1;
+      }
+      &.up:hover .asc{
+        border-bottom: 8px solid green;
+      }
+      &.down:hover .des{
+        border-top: 8px solid green;
+      }
+    }
+    .tr .arrow{
+      margin-left: 9px;
+    }
+  }
+  select{
+    font-size: 12px;
+    width: 28px;
+  }
+}

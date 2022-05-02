@@ -1,30 +1,28 @@
-//imports nécessaire pour pouvoir appeler les propriétés du state et appelé les fonctions du fichier action
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useState } from "react";
-import { addCur, changeField } from "../../actions/buyer";
+
+import { roundNum, getColor } from "../../utils/methods";
+import { addCur } from "../../actions/buyer";
+import { addCourb } from "../../actions/currency";
 
 
 const CurrencyRow = ({data, period}) => {
-  const dispatch = useDispatch();
-  const { money } = useSelector((state) => state.buyer);
 
+  const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
 
-  const roundNum = (num, unit) => {
-    let setUnit = unit;
-    while ((num * setUnit) < 1) setUnit *=  10;
-    return (Math.round(num * setUnit) / setUnit)
-  };
-
+  //buy a currency => add it to user's wallet in the state
   const buyCur = () => {
     dispatch(addCur(data.name, data.rate, data.inverseRate, quantity));
     setQuantity(1);
   }
 
+  //change selected quantity of currency to buy 
   const changeQuant = (e) => {
-    setQuantity(Number(e.target.value) * data.inverseRate <= money ? Number(e.target.value) : Math.floor(money / data.inverseRate));
+    setQuantity(Number(e.target.value) > 0 ? Number(e.target.value) : 1);
   }
 
+  //poster court tendancie, up or down, of currency for selected period
   let tendance;
   let progress = (data.inverseRate / data.history[7-period].inverseRate * 100) - 100;
   if (progress > 0) {
@@ -34,8 +32,18 @@ const CurrencyRow = ({data, period}) => {
   } else if (progress == 0) {
     tendance = 'lin';
   }
-  
 
+  //prepare data of selected currency for fluctuation court currency line chart
+  const addLineChart = () => {
+    let dataTab = [];
+    let color = getColor();
+    data.history.forEach(cur => {
+      dataTab.push({x: cur.date, y: roundNum(cur.inverseRate, 100)});
+    });
+    dataTab.push({x: data.date, y: roundNum(data.inverseRate, 100)});
+    dispatch(addCourb({'id':data.name, 'data':dataTab, 'color': color}));
+  }
+  
   return (
     <div className="row tr">
       <div className="cell name">{data.name}</div>
@@ -47,8 +55,9 @@ const CurrencyRow = ({data, period}) => {
         <div className={`arrow ${tendance}`}></div>
       </div>
       <div className="cell cta">
-        <button type="button" onClick={buyCur}>Acheter</button>
+        <button type="button" className="cta-buy" onClick={buyCur}>Acheter</button>
         <input type="number" min="1" onChange={changeQuant} name="quantity" value={quantity}></input>
+        <button className="cta-see" type="button" onClick={addLineChart}></button>
       </div>
     </div>
   );

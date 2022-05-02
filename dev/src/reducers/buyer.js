@@ -1,16 +1,17 @@
 import { CHANGE_FIELD, ADD_CUR, REMOVE_CUR, DISPLAY_MODAL, LOG_USER } from "src/actions/buyer";
+import { getColor } from "../utils/methods";
 
 const initialState = {
   id: 1,
-  name:'jim',
+  name:'',
   firstName:'',
   email:'',
   password: '',
   confirmPassword: '',
   wallet:[],
-  money: 10000,
   connect: false,
   logModal: 'off',
+  amount: 0,
 };
 
 const reducer = (state = initialState, action = {}) => {
@@ -28,7 +29,6 @@ const reducer = (state = initialState, action = {}) => {
         }
       }
       case DISPLAY_MODAL :{
-        console.log(action.mode);
         return{
           ...state,
           logModal: action.mode,
@@ -36,6 +36,7 @@ const reducer = (state = initialState, action = {}) => {
       }
       case REMOVE_CUR :{
         let newWallet = state.wallet;
+        let newAmount = state.amount;
         
         for (let i = 0; i < newWallet.length; i++) {
           if (newWallet[i].name == action.name) {
@@ -45,15 +46,16 @@ const reducer = (state = initialState, action = {}) => {
             break;
           }
         }
-          
+        
         return{
           ...state,
           wallet: newWallet,
-          money: state.money + (action.inverseRate * action.quantity),
+          amount : newAmount -= (action.inverseRate * action.quantity),
         }
       }
       case ADD_CUR :{
         let newWallet = state.wallet;
+        let newAmount = state.amount;
         let hasCur = false;
         
         for (let i = 0; i < newWallet.length; i++) {
@@ -71,14 +73,15 @@ const reducer = (state = initialState, action = {}) => {
             rate : action.rate, 
             inverseRate : action.inverseRate ,
             quantity: action.quantity,
+            color: getColor(),
             sell:[{amount: action.quantity, date: new Date()}],
           });
         };
-          console.log('newWallet', newWallet);
+        
         return{
           ...state,
           wallet: newWallet,
-          money: state.money - (action.inverseRate * action.quantity),
+          amount : newAmount += (action.inverseRate * action.quantity),
         }
       }
       default:
