@@ -18,11 +18,11 @@ const Dashboard = () => {
   const sortTab = (e) => {
     let type = e.target.getAttribute('type');
     let sorted = [...curSorted].sort((a, b) => {
-      if (a[type] > b[type]) return sortedDir == 'up' ? 1 : -1;
-      if (a[type] < b[type]) return sortedDir == 'up' ? -1 : 1;
+      if (a[type] > b[type]) return sortedDir === 'up' ? 1 : -1;
+      if (a[type] < b[type]) return sortedDir === 'up' ? -1 : 1;
       return 0;
     });
-    setSortedDir(sortedDir == 'up' ? 'down' : 'up');
+    setSortedDir(sortedDir === 'up' ? 'down' : 'up');
     setCurSorted(sorted);
   }
 
@@ -50,19 +50,17 @@ const Dashboard = () => {
   }  
 
   //prepare date format of wallet transaction for line chart
-  let lineData = [];
-  wallet.forEach(cur => {
-    let dataTab = [];
-    cur.sell.forEach(trans => {
-      const parsedDate = ''+trans.date.getFullYear()+'-'
-      +twoD(trans.date.getMonth() + 1)+'-'
-      +twoD(trans.date.getDate())+' '
-      +twoD(trans.date.getHours() - 2)+':'
-      +twoD(trans.date.getMinutes())+':'
-      +twoD(trans.date.getSeconds());
-      dataTab.push({x: parsedDate, y: roundNum(trans.amount * cur.inverseRate, 10)});
+  let lineData = wallet.map(cur => {
+    let dataTab = cur.sell.map(trans => {
+      const parsedDate = `${trans.date.getFullYear()}${'-'
+      }${twoD(trans.date.getMonth() + 1)}${'-'
+      }${twoD(trans.date.getDate())}${' '
+      }${twoD(trans.date.getHours() - 2)}${':'
+      }${twoD(trans.date.getMinutes())}${':'
+      }${twoD(trans.date.getSeconds())}`;
+      return ({x: parsedDate, y: roundNum(trans.amount * cur.inverseRate, 10)});
     });
-    lineData.push({'id':cur.name, 'data':dataTab, 'color':cur.color});
+    return ({'id':cur.name, 'data':dataTab, 'color':cur.color});
   });
 
   //set legends for currency user's line chart

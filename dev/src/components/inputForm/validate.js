@@ -11,25 +11,25 @@ export const validateForm = (formEl) => {
   validate = false;
   let val = true;
   for (let el of formEl){
-    if (validateField(el) == false) val = false;
+    if (validateField(el) === false) val = false;
   }
-  if (val == true) validate = true;
+  if (val === true) validate = true;
   return val;
 }
 
 //control fields on change only after first submit attempt 
 export const validateField = (el) => {
-  if (validate == true) return;
+  if (validate === true) return;
   let val = true;
   const controlType = () => {
-    if (el.type == "email") {
-      if (checkEmail(el) == false) val = false;
+    if (el.type === "email") {
+      if (checkEmail(el) === false) val = false;
     } 
   }
   
 
   if (el.classList.contains('required')) {
-    if(el.value.trim() == '') {
+    if(el.value.trim() === '') {
       if (el.classList.contains('error')) {
         el.parentNode.lastChild.innerHTML = 'Ce champs est requis';
       } else {

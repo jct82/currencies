@@ -57,6 +57,11 @@ const LineCurrency = ({ data, diffTime }) => {
               tickRotation: 0,
           }}
           enablePointLabel={true}
+          tooltip={({point}) => (
+            <div style={{padding:'2px 4px', background:`${point.serieColor}`, fontSize: '10px'}}>
+              {point.serieId} : {point.data.y}$
+            </div>
+          )}
           pointSize={16}
           pointBorderWidth={1}
           pointBorderColor={{

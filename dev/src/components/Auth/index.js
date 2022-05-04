@@ -33,13 +33,13 @@ const Auth = () => {
 
   return(
     <div className="auth">
-      {logModal == 'off' && 
-        <><button className="button-connect" type="button" onClick={connected == false ? showModal : disconnect} name="connect"></button>
+      {logModal === 'off' && 
+        <><button className="button-connect" type="button" onClick={connected === false ? showModal : disconnect} name="connect"></button>
         {discoBtn &&<button className="disconnect" type="button">{name}</button>}
         </>
       }
-      {logModal == 'connect' && <ConnectProfil />}
-      {logModal == 'addUser' && <AddProfil />}
+      {logModal === 'connect' && <ConnectProfil />}
+      {logModal === 'addUser' && <AddProfil />}
     </div>
   );
 };

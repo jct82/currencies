@@ -29,17 +29,14 @@ const CurrencyRow = ({data, period}) => {
     tendance = 'asc';
   } else if (progress < 0) {
     tendance = 'des';
-  } else if (progress == 0) {
+  } else if (progress === 0) {
     tendance = 'lin';
   }
 
   //prepare data of selected currency for fluctuation court currency line chart
   const addLineChart = () => {
-    let dataTab = [];
     let color = getColor();
-    data.history.forEach(cur => {
-      dataTab.push({x: cur.date, y: roundNum(cur.inverseRate, 100)});
-    });
+    let dataTab = data.history.map(cur => ({x: cur.date, y: roundNum(cur.inverseRate, 100)}));
     dataTab.push({x: data.date, y: roundNum(data.inverseRate, 100)});
     dispatch(addCourb({'id':data.name, 'data':dataTab, 'color': color}));
   }

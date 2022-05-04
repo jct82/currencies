@@ -5,7 +5,6 @@ import { roundNum } from "../../utils/methods";
 
 const UserRow = ({data}) => {
   const dispatch = useDispatch();
-  const { wallet } = useSelector((state) => state.buyer);
 
   const [quantity, setQuantity] = useState(1);
 

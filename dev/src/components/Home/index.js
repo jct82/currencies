@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { roundNum, twoD } from "../../utils/methods";
 import currencyData from '../../data/currency.json';
@@ -11,7 +11,6 @@ import './styles.scss';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { wallet } = useSelector((state) => state.buyer);
   const { currencyCourbs, period } = useSelector((state) => state.currency);
 
   //create formated date for fluctuation court currency line chart
@@ -29,14 +28,7 @@ const Home = () => {
 
   //create fake data for fluctuation court currency of past days
   const fillHistory = (val) => {
-    let weekValues = [];
-    for (let i = 6; i > 0; i--) {
-      weekValues.push({
-        date:createDate(i),
-        inverseRate: fluctuat(val)
-      });
-    }
-    return weekValues;
+    return Array.from({length: 6}, (item, index) => ({date:createDate(Math.abs(index - 6)), inverseRate: fluctuat(val)}));
   }
 
   //prepare and complete data of json currencies for charts and tabs
@@ -55,11 +47,11 @@ const Home = () => {
   const sortTab = (e) => {
     let type = e.target.getAttribute('type');
     let sorted = [...currencies].sort((a, b) => {
-      if (a[type] > b[type]) return sortedDir == 'up' ? 1 : -1;
-      if (a[type] < b[type]) return sortedDir == 'up' ? -1 : 1;
+      if (a[type] > b[type]) return sortedDir === 'up' ? 1 : -1;
+      if (a[type] < b[type]) return sortedDir === 'up' ? -1 : 1;
       return 0;
     });
-    setSortedDir(sortedDir == 'up' ? 'down' : 'up');
+    setSortedDir(sortedDir === 'up' ? 'down' : 'up');
     setCurrencies(sorted);
   }
 
@@ -69,14 +61,14 @@ const Home = () => {
       let progressA = a.inverseRate * 100 / a.history[7 - period].inverseRate;
       let progressB = b.inverseRate * 100 / b.history[7 - period].inverseRate;
       if (progressA > progressB) {
-        return sortedDir == 'up' ? 1 : -1;
+        return sortedDir === 'up' ? 1 : -1;
       }
       if (progressA < progressB) {
-         return sortedDir == 'up' ? -1 : 1;
+         return sortedDir === 'up' ? -1 : 1;
       }
       return 0;
     });
-    setSortedDir(sortedDir == 'up' ? 'down' : 'up');
+    setSortedDir(sortedDir === 'up' ? 'down' : 'up');
     setCurrencies(sorted);
   }
 

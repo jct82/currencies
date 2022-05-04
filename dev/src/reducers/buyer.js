@@ -70,7 +70,7 @@ const reducer = (state = initialState, action = {}) => {
         let hasCur = false;
         
         for (let i = 0; i < newWallet.length; i++) {
-          if (newWallet[i].name == action.name) {
+          if (newWallet[i].name === action.name) {
             newWallet[i].quantity += action.quantity;
             newWallet[i].sell.push({amount: newWallet[i].quantity, date: new Date()});
             hasCur = true;
