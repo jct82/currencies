@@ -93,7 +93,7 @@ const reducer = (state = initialState, action = {}) => {
         return{
           ...state,
           currencies: newCurrencies,
-          currencyCourbs: newCurrencyCourbs,
+          currencyCourbs: newCurrencyCourbs, 
         }
       }
       default:
