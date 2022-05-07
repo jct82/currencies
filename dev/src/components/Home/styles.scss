@@ -17,17 +17,73 @@
     .cta{
       flex-grow:0;
       flex-basis: 170px;
+      .cta-buy{
+        position: relative;
+        .info{
+          color:green;
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          margin: auto;
+          font-size: 11px;
+          height: 10px;
+          line-height: 1;
+          pointer-events:none;
+          .operator{
+            position: relative;
+            display: inline-block;
+            margin-bottom: 2px;
+            &:before, &:after{
+              content: '';
+              display: block;
+              width: 6px;
+              height: 2px;
+              background-color: green;
+            }
+            &:before{
+              margin-right: 2px;
+            }
+            &:after{
+              position: absolute;
+              top: 0;
+              left: 0;
+              transform: rotate(90deg);
+            }
+          }
+        }
+        &.on .info{
+          animation: nbrup linear 0.3s;
+          animation-fill-mode: forwards;
+        }
+      }
     }  
   }
   .cta-see{
     width:20px;
-    height: 20px;
+    height: 14px;
     margin-left:5px;
     background-image: url('../images/view.png');
     background-repeat: no-repeat;
     background-size: 100%;
     background-color: transparent;
     cursor:pointer;
+    &.on{
+      background-image: url('../images/view-white.png');
+    }
+  }
+}
+
+@keyframes nbrup{
+  0%{
+    opacity: 1;
+    transform: translateY(0px);
+  }
+  100%{
+    opacity: 0;
+    transform: translateY(-25px);
   }
 }
 
@@ -64,7 +120,7 @@
     }
     .cta-see{
       width: 16px;
-      height: 16px;
+      height: 11px;
     }
   }
 }

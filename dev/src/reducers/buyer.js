@@ -1,4 +1,4 @@
-import { CHANGE_FIELD, ADD_CUR, REMOVE_CUR, DISPLAY_MODAL, CONNECT, POSTER_DISCO } from "src/actions/buyer";
+import { CHANGE_FIELD, ADD_CUR, REMOVE_CUR, DISPLAY_MODAL, CONNECT, POSTER_DISCO, ORDER_CURRENCIES } from "src/actions/buyer";
 import { getColor } from "../utils/methods";
 
 const initialState = {
@@ -8,6 +8,7 @@ const initialState = {
   password: '',
   confirmPassword: '',
   wallet:[],
+  sortedDir: 'up',
   connected: false,
   logModal: 'off',
   amount: 0,
@@ -87,12 +88,24 @@ const reducer = (state = initialState, action = {}) => {
             color: getColor(),
             sell:[{amount: action.quantity, date: new Date()}],
           });
-        };
-        
+        }
         return{
           ...state,
           wallet: newWallet,
           amount : newAmount += (action.inverseRate * action.quantity),
+        }
+      }
+      case ORDER_CURRENCIES :{
+        let newWallet = [...state.wallet].map(elem => ({...elem}));
+        newWallet.sort((a, b) => {
+          if (a[action.prop] > b[action.prop]) return state.sortedDir === 'up' ? 1 : -1;
+          if (a[action.prop] < b[action.prop]) return state.sortedDir === 'up' ? -1 : 1;
+          return 0;
+        });
+        return{
+          ...state,
+          wallet: newWallet,
+          sortedDir: state.sortedDir === 'up' ? 'down' : 'up',
         }
       }
       default:

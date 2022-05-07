@@ -1,6 +1,7 @@
 export const CHANGE_FIELD = 'CHANGE_FIELD';
 export const ADD_CUR = 'ADD_CUR';
 export const REMOVE_CUR = 'REMOVE_CUR';
+export const ORDER_CURRENCIES = 'ORDER_CURRENCIES';
 export const DISPLAY_MODAL = 'DISPLAY_MODAL';
 export const LOG_USER = 'LOG_USER';
 export const ADD_USER = 'ADD_USER';
@@ -27,6 +28,11 @@ export const removeCur = (name, rate, inverseRate, quantity) => ({
   rate: rate,
   inverseRate: inverseRate,
   quantity: quantity,
+});
+
+export const orderCurrencies = (prop) => ({
+  type: ORDER_CURRENCIES,
+  prop: prop,
 });
 
 export const displayModal = (mode) => ({

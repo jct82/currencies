@@ -10,9 +10,19 @@ const CurrencyRow = ({data, period}) => {
 
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
+  //click buy effect value
+  const [quantEff, setQuantEff] = useState(1);
 
   //buy a currency => add it to user's wallet in the state
-  const buyCur = () => {
+  const buyCur = (e) => {
+    //click buy effect
+    e.target.classList.add('on');
+    setQuantEff(quantity);
+    let removeOn = setTimeout(() => {
+      e.target.classList.remove('on');
+      setQuantEff(quantity);
+      clearTimeout(removeOn);
+    }, 300);
     dispatch(addCur(data.name, data.rate, data.inverseRate, quantity));
     setQuantity(1);
   }
@@ -52,9 +62,15 @@ const CurrencyRow = ({data, period}) => {
         <div className={`arrow ${tendance}`}></div>
       </div>
       <div className="cell cta">
-        <button type="button" className="cta-buy" onClick={buyCur}>Acheter</button>
+        <button type="button" className="cta-buy" onClick={buyCur}>
+          Acheter
+          <span className="info">
+            <span className="operator"></span>
+            {quantEff}
+          </span>
+        </button>
         <input type="number" min="1" onChange={changeQuant} name="quantity" value={quantity}></input>
-        <button className="cta-see" type="button" onClick={addLineChart}></button>
+        <button className={data.on ? "cta-see on" : "cta-see"} type="button" onClick={addLineChart} ></button>
       </div>
     </div>
   );

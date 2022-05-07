@@ -1,33 +1,25 @@
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { roundNum, twoD } from "../../utils/methods";
 import UserRow from './userRow';
 import PieChart from './pieChart';
 import LineCurrency from './lineCurrency';
+import { orderCurrencies } from "../../actions/buyer";
+
 import './styles.scss';
 
 
 const Dashboard = () => {
-
-  const wallet = useSelector((state) => state.buyer.wallet);
-  let [curSorted, setCurSorted] = useState(wallet);
-  let [sortedDir, setSortedDir] = useState('up');
+  const dispatch = useDispatch();
+  const { wallet, sortedDir } = useSelector((state) => state.buyer);
 
   //sort currency tab according to selected type of information
   const sortTab = (e) => {
-    let type = e.target.getAttribute('type');
-    let sorted = [...curSorted].sort((a, b) => {
-      if (a[type] > b[type]) return sortedDir === 'up' ? 1 : -1;
-      if (a[type] < b[type]) return sortedDir === 'up' ? -1 : 1;
-      return 0;
-    });
-    setSortedDir(sortedDir === 'up' ? 'down' : 'up');
-    setCurSorted(sorted);
+    dispatch(orderCurrencies(e.target.getAttribute('type')));
   }
 
   // JSX element of currency user's wallet tab rows
-  let JSXRow = curSorted.map(elem => <UserRow key={elem.name} data={elem} />);
+  let JSXRow = wallet.map(elem => <UserRow key={elem.name} data={elem} />);
 
   //prepare data for donut chart
   let chartData = wallet.map(slice => ({

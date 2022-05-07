@@ -1,17 +1,18 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { roundNum, twoD } from "../../utils/methods";
 import currencyData from '../../data/currency.json';
 import CurrencyRow from './CurrencyRow';
 import LineCurrency from './lineCurrency';
-import { setPeriod, supCur } from "../../actions/currency";
+import { setCurrencies, orderCurrencies, orderProgress, setPeriod, supCur } from "../../actions/currency";
 
 import './styles.scss';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { currencyCourbs, period } = useSelector((state) => state.currency);
+  const { currencies, currencyCourbs, period, sortedDir } = useSelector((state) => state.currency);
+  //dispatch(setCurrencies(currencyData.currencies));
 
   //create formated date for fluctuation court currency line chart
   const createDate = (days) => {
@@ -31,45 +32,26 @@ const Home = () => {
     return Array.from({length: 6}, (item, index) => ({date:createDate(Math.abs(index - 6)), inverseRate: fluctuat(val)}));
   }
 
-  //prepare and complete data of json currencies for charts and tabs
-  let newCurTab = [...currencyData.currencies].map(cur => ({
-    ...cur,
-    date: createDate(0),
-    rate: roundNum(cur.rate, 100),
-    inverseRate: roundNum(cur.inverseRate, 100),
-    history: fillHistory(roundNum(cur.inverseRate, 100))
-  }));
-
-  let [currencies, setCurrencies] = useState(newCurTab);
-  let [sortedDir, setSortedDir] = useState('up');
+  useEffect(() => {
+    //prepare and complete data of json currencies for charts and tabs
+    let newCurTab = [...currencyData.currencies].map(cur => ({
+      ...cur,
+      date: createDate(0),
+      rate: roundNum(cur.rate, 100),
+      inverseRate: roundNum(cur.inverseRate, 100),
+      history: fillHistory(roundNum(cur.inverseRate, 100))
+    }));
+    dispatch(setCurrencies(newCurTab));
+  },[])
 
   //sort currency tab according to selected type of information
   const sortTab = (e) => {
-    let type = e.target.getAttribute('type');
-    let sorted = [...currencies].sort((a, b) => {
-      if (a[type] > b[type]) return sortedDir === 'up' ? 1 : -1;
-      if (a[type] < b[type]) return sortedDir === 'up' ? -1 : 1;
-      return 0;
-    });
-    setSortedDir(sortedDir === 'up' ? 'down' : 'up');
-    setCurrencies(sorted);
+    dispatch(orderCurrencies(e.target.getAttribute('type')));
   }
 
   //sort currency tab according to court progression on selected period
   const sortProgress = () => {
-    let sorted = [...currencies].sort((a, b) => {
-      let progressA = a.inverseRate * 100 / a.history[7 - period].inverseRate;
-      let progressB = b.inverseRate * 100 / b.history[7 - period].inverseRate;
-      if (progressA > progressB) {
-        return sortedDir === 'up' ? 1 : -1;
-      }
-      if (progressA < progressB) {
-         return sortedDir === 'up' ? -1 : 1;
-      }
-      return 0;
-    });
-    setSortedDir(sortedDir === 'up' ? 'down' : 'up');
-    setCurrencies(sorted);
+    dispatch(orderProgress(period));
   }
 
   //select relevant data according to period
